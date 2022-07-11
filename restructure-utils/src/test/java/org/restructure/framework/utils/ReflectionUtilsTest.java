@@ -23,13 +23,17 @@ class ReflectionUtilsTest {
         @TesteAnnotation
         private String nome;
 
-        private String lastName;
+        public String lastName;
 
         @TesteAnnotation
         public void sayHello() {
         }
 
         public void sayHello(String name) {
+
+        }
+
+        private void sayBy() {
 
         }
 
@@ -122,4 +126,21 @@ class ReflectionUtilsTest {
         Boolean result = ReflectionUtils.hasAnnotation(TesteAnnotation.class, f);
         Assertions.assertEquals(Boolean.FALSE, result);
     }
+
+    @DisplayName("Campo é acessível esperado True")
+    @Test
+    void fieldAccessibleExpectTrue() throws NoSuchFieldException {
+        Field f = tests.getClass().getDeclaredField("lastName");
+        Boolean result = ReflectionUtils.canAccess(tests, f);
+        Assertions.assertEquals(Boolean.TRUE, result);
+    }
+
+    @DisplayName("Campo não é acessível esperado false")
+    @Test
+    void notFieldAccessibleExpectFalse() throws NoSuchFieldException {
+        Field f = tests.getClass().getDeclaredField("nome");
+        Boolean result = ReflectionUtils.canAccess(tests, f);
+        Assertions.assertEquals(Boolean.FALSE, result);
+    }
+
 }

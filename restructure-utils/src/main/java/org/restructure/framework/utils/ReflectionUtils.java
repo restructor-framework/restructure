@@ -78,4 +78,27 @@ public class ReflectionUtils {
     public static Boolean hasAnnotation(Class<? extends Annotation> annotation, Class<?> clazz) {
         return clazz.isAnnotationPresent(annotation);
     }
+
+    /**
+     * Verifica se determinado campo é acessível
+     *
+     * @param target objeto para verificação
+     * @param f      campo para verificação
+     * @return <code>True</code> caso seja acessível e <code>False</code> caso contrario
+     */
+    public static Boolean canAccess(Object target, Field f) {
+        return f.canAccess(target);
+    }
+
+    /**
+     * Verifica se determinado método é acessível
+     *
+     * @param target objeto para verificação
+     * @param method método para verificação
+     * @return <code>True</code> caso seja possível e <code>False</code> caso contrario
+     */
+    public static Boolean canAccess(Object target, Method method) {
+        return method.canAccess(target);
+    }
+
 }
