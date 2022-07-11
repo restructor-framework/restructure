@@ -5,6 +5,8 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 /**
+ * Classe Utilitária para trabalhar com reflexão
+ *
  * @author João Henrique
  * @since 1.0.0
  */
@@ -29,6 +31,12 @@ public class ReflectionUtils {
         }
     }
 
+    /**
+     * @param target     classe para busca
+     * @param name       nome do método
+     * @param typesParam tipos dos parâmetros
+     * @return <code>True</code> caso seja encontrado e <code>False</code> caso contrario
+     */
     public static Boolean hasMethod(Class<?> target, String name, Class<?>... typesParam) {
         try {
             target.getMethod(name, typesParam);
@@ -38,14 +46,35 @@ public class ReflectionUtils {
         }
     }
 
+    /**
+     * Verifica se determinado campo possui uma determinada anotação
+     *
+     * @param annotation anotação desejada
+     * @param f          campo para verificação
+     * @return <code>True</code> caso contenha e <code>False</code> caso contrario
+     */
     public static Boolean hasAnnotation(Class<? extends Annotation> annotation, Field f) {
         return f.isAnnotationPresent(annotation);
     }
 
+    /**
+     * Verifica se determinado método possui determinada anotação
+     *
+     * @param annotation anotação desejada
+     * @param method     método para verificação
+     * @return <code>True</code> caso exista e <code>False</code> caso contrario
+     */
     public static Boolean hasAnnotation(Class<? extends Annotation> annotation, Method method) {
         return method.isAnnotationPresent(annotation);
     }
 
+    /**
+     * Verifica se determinada classe possui determinada anotação
+     *
+     * @param annotation anotação desejada
+     * @param clazz      classe para verificação
+     * @return <code>True</code> caso exista e <code>False</code> caso contrario
+     */
     public static Boolean hasAnnotation(Class<? extends Annotation> annotation, Class<?> clazz) {
         return clazz.isAnnotationPresent(annotation);
     }
