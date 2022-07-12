@@ -56,35 +56,35 @@ class ReflectionUtilsTest {
     @DisplayName("Existe o campo esperado True")
     void existsFieldExpectTrue() {
         Boolean result = ReflectionUtils.hasField(tests.getClass(), "nome");
-        Assertions.assertEquals(Boolean.TRUE, result);
+        Assertions.assertTrue(result);
     }
 
     @Test
     @DisplayName("Não existe o campo esperado False")
     void notExistsFieldExpectFalse() {
         Boolean result = ReflectionUtils.hasField(tests.getClass(), "nome2");
-        Assertions.assertEquals(Boolean.FALSE, result);
+        Assertions.assertFalse(result);
     }
 
     @DisplayName("Existe o método esperado True")
     @Test
     void existsMethodExpectTrue() {
         Boolean result = ReflectionUtils.hasMethod(tests.getClass(), "sayHello");
-        Assertions.assertEquals(Boolean.TRUE, result);
+        Assertions.assertTrue(result);
     }
 
     @DisplayName("Existe o método com parâmetros esperado True")
     @Test
     void existMethodWithParamsExpectTrue() {
         Boolean result = ReflectionUtils.hasMethod(tests.getClass(), "sayHello", String.class);
-        Assertions.assertEquals(Boolean.TRUE, result);
+        Assertions.assertTrue(result);
     }
 
     @Test
     @DisplayName("Não existe o método esperado False")
     void notExistsMethodExpectFalse() {
         Boolean result = ReflectionUtils.hasMethod(tests.getClass(), "sayHello2");
-        Assertions.assertEquals(Boolean.FALSE, result);
+        Assertions.assertFalse(result);
     }
 
     @DisplayName("Existe anotação no método esperado true")
@@ -92,7 +92,7 @@ class ReflectionUtilsTest {
     void existsAnnotationInMethodExpectTrue() throws NoSuchMethodException {
         Method method = tests.getClass().getMethod("sayHello");
         Boolean result = ReflectionUtils.hasAnnotation(TesteAnnotation.class, method);
-        Assertions.assertEquals(Boolean.TRUE, result);
+        Assertions.assertTrue(result);
     }
 
     @DisplayName("Não existe anotação no método esperado false")
@@ -100,7 +100,7 @@ class ReflectionUtilsTest {
     void notExistsAnnotationInMethodExpectFalse() throws NoSuchMethodException {
         Method method = tests.getClass().getMethod("sayHello", String.class);
         Boolean result = ReflectionUtils.hasAnnotation(TesteAnnotation.class, method);
-        Assertions.assertEquals(Boolean.FALSE, result);
+        Assertions.assertFalse(result);
     }
 
     @DisplayName("Existe Anotação na classe esperado True")
@@ -108,7 +108,7 @@ class ReflectionUtilsTest {
     void existsAnnotationInClassExpectTrue() {
         Class<? extends ReflectionTests> clazz = tests.getClass();
         Boolean result = ReflectionUtils.hasAnnotation(TesteAnnotation.class, clazz);
-        Assertions.assertEquals(Boolean.TRUE, result);
+        Assertions.assertTrue(result);
     }
 
     @DisplayName("Não existe anotação na classe esperado False")
@@ -116,7 +116,7 @@ class ReflectionUtilsTest {
     void notExistsAnnotationInClassExpectFalse() {
         Class<Tests2> clazz = Tests2.class;
         Boolean result = ReflectionUtils.hasAnnotation(TesteAnnotation.class, clazz);
-        Assertions.assertEquals(Boolean.FALSE, result);
+        Assertions.assertFalse(result);
     }
 
     @DisplayName("Existe anotação no campo esperado True ")
@@ -124,7 +124,7 @@ class ReflectionUtilsTest {
     void existsAnnotationInFieldExpectTrue() throws NoSuchFieldException {
         Field f = tests.getClass().getDeclaredField("nome");
         Boolean result = ReflectionUtils.hasAnnotation(TesteAnnotation.class, f);
-        Assertions.assertEquals(Boolean.TRUE, result);
+        Assertions.assertTrue(result);
     }
 
     @DisplayName("Não existe anotação no campo esperado False")
@@ -132,7 +132,7 @@ class ReflectionUtilsTest {
     void notExistsAnnotationInFieldExpectFalse() throws NoSuchFieldException {
         Field f = tests.getClass().getDeclaredField("lastName");
         Boolean result = ReflectionUtils.hasAnnotation(TesteAnnotation.class, f);
-        Assertions.assertEquals(Boolean.FALSE, result);
+        Assertions.assertFalse(result);
     }
 
     @DisplayName("Campo é acessível esperado True")
@@ -140,7 +140,7 @@ class ReflectionUtilsTest {
     void fieldAccessibleExpectTrue() throws NoSuchFieldException {
         Field f = tests.getClass().getDeclaredField("lastName");
         Boolean result = ReflectionUtils.canAccess(tests, f);
-        Assertions.assertEquals(Boolean.TRUE, result);
+        Assertions.assertTrue(result);
     }
 
     @DisplayName("Campo não é acessível esperado false")
@@ -148,7 +148,7 @@ class ReflectionUtilsTest {
     void notFieldAccessibleExpectFalse() throws NoSuchFieldException {
         Field f = tests.getClass().getDeclaredField("nome");
         Boolean result = ReflectionUtils.canAccess(tests, f);
-        Assertions.assertEquals(Boolean.FALSE, result);
+        Assertions.assertFalse(result);
     }
 
     @DisplayName("Método acessível esperado True")
@@ -156,7 +156,7 @@ class ReflectionUtilsTest {
     void methodAccessibleExpectTrue() throws NoSuchMethodException {
         Method method = tests.getClass().getDeclaredMethod("sayHello");
         Boolean result = ReflectionUtils.canAccess(tests, method);
-        Assertions.assertEquals(Boolean.TRUE, result);
+        Assertions.assertTrue(result);
     }
 
     @DisplayName("Método acessível esperado True")
@@ -164,7 +164,7 @@ class ReflectionUtilsTest {
     void methodNotAccessibleExpectTrue() throws NoSuchMethodException {
         Method method = tests.getClass().getDeclaredMethod("sayBy");
         Boolean result = ReflectionUtils.canAccess(tests, method);
-        Assertions.assertEquals(Boolean.FALSE, result);
+        Assertions.assertFalse(result);
     }
 
     @DisplayName("Campo existente esperado um optional com o campo")
@@ -188,4 +188,10 @@ class ReflectionUtilsTest {
         Assertions.assertNotNull(clazz);
     }
 
+    @DisplayName("Classe não existente esperado um optional vazio")
+    @Test
+    void classNotExistsExpectEmptyOptional() {
+        Boolean result = ReflectionUtils.safeGetClassByName("org.restructure.framework.utils.ReflectionUtils").isEmpty();
+        Assertions.assertFalse(result);
+    }
 }
