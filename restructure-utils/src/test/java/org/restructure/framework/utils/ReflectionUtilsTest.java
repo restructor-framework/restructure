@@ -143,4 +143,20 @@ class ReflectionUtilsTest {
         Assertions.assertEquals(Boolean.FALSE, result);
     }
 
+    @DisplayName("Método acessível esperado True")
+    @Test
+    void methodAccessibleExpectTrue() throws NoSuchMethodException {
+        Method method = tests.getClass().getDeclaredMethod("sayHello");
+        Boolean result = ReflectionUtils.canAccess(tests, method);
+        Assertions.assertEquals(Boolean.TRUE, result);
+    }
+
+    @DisplayName("Método acessível esperado True")
+    @Test
+    void methodNotAccessibleExpectTrue() throws NoSuchMethodException {
+        Method method = tests.getClass().getDeclaredMethod("sayBy");
+        Boolean result = ReflectionUtils.canAccess(tests, method);
+        Assertions.assertEquals(Boolean.FALSE, result);
+    }
+
 }
