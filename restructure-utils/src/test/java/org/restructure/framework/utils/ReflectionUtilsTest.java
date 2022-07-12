@@ -10,6 +10,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 @DisplayName("Utilitários de reflexão")
+@SuppressWarnings("all")
 class ReflectionUtilsTest {
 
     @Retention(RetentionPolicy.RUNTIME)
@@ -157,6 +158,19 @@ class ReflectionUtilsTest {
         Method method = tests.getClass().getDeclaredMethod("sayBy");
         Boolean result = ReflectionUtils.canAccess(tests, method);
         Assertions.assertEquals(Boolean.FALSE, result);
+    }
+
+    @DisplayName("Campo existente esperado um optional com o campo")
+    @Test
+    void fieldExistsExpectOptionalWithField() {
+        Field f = ReflectionUtils.safeGetField(tests.getClass(), "nome").get();
+        Assertions.assertNotNull(f);
+    }
+
+    @DisplayName("Médodo existe esperado um optional com o método")
+    void methodExistsExpectOptionalWithMethod() {
+        Method method = ReflectionUtils.safeGetMethod(tests.getClass(), "sayHello").get();
+        Assertions.assertNotNull(method);
     }
 
 }

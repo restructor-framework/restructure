@@ -3,6 +3,7 @@ package org.restructure.framework.utils;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Optional;
 
 /**
  * Classe Utilitária para trabalhar com reflexão
@@ -23,12 +24,7 @@ public class ReflectionUtils {
      * @return <code>True</code> caso exista e <code>False</code> caso contrario
      */
     public static Boolean hasField(Class<?> target, String field) {
-        try {
-            target.getDeclaredField(field);
-            return true;
-        } catch (NoSuchFieldException e) {
-            return false;
-        }
+        return safeGetField(target, field).isPresent();
     }
 
     /**
@@ -38,12 +34,7 @@ public class ReflectionUtils {
      * @return <code>True</code> caso seja encontrado e <code>False</code> caso contrario
      */
     public static Boolean hasMethod(Class<?> target, String name, Class<?>... typesParam) {
-        try {
-            target.getMethod(name, typesParam);
-            return true;
-        } catch (NoSuchMethodException e) {
-            return false;
-        }
+        return safeGetMethod(target, name, typesParam).isPresent();
     }
 
     /**
@@ -101,4 +92,36 @@ public class ReflectionUtils {
         return method.canAccess(target);
     }
 
+    /**
+     * Realiza uma busca de um campo
+     *
+     * @param target classe para busca
+     * @param name   nome do campo
+     * @return um {@link Optional} contendo um {@link Field} evitando {@link NullPointerException}
+     */
+    public static Optional<Field> safeGetField(Class<?> target, String name) {
+        try {
+            Field f = target.getDeclaredField(name);
+            return Optional.of(f);
+        } catch (NoSuchFieldException e) {
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * Realiza uma busca de um método
+     *
+     * @param target classe para busca
+     * @param name   nome do método
+     * @param types  tipos dos parâmetros do método
+     * @return um {@link Optional} contendo um {@link Method} evitando {@link NullPointerException}
+     */
+    public static Optional<Method> safeGetMethod(Class<?> target, String name, Class<?>... types) {
+        try {
+            Method m = target.getDeclaredMethod(name, types);
+            return Optional.of(m);
+        } catch (NoSuchMethodException e) {
+            return Optional.empty();
+        }
+    }
 }
