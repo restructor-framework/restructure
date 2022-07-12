@@ -124,4 +124,13 @@ public class ReflectionUtils {
             return Optional.empty();
         }
     }
+
+    public static Optional<Class<?>> safeGetClassByName(String name) {
+        try {
+            Class<?> clazz = Class.forName(name);
+            return Optional.of(clazz);
+        } catch (ClassNotFoundException e) {
+            return Optional.empty();
+        }
+    }
 }

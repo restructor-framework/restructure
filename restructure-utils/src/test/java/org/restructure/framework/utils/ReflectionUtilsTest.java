@@ -1,17 +1,24 @@
 package org.restructure.framework.utils;
 
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.platform.commons.logging.Logger;
+import org.junit.platform.commons.logging.LoggerFactory;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+
 @DisplayName("Utilitários de reflexão")
 @SuppressWarnings("all")
 class ReflectionUtilsTest {
+
+    private Logger log = LoggerFactory.getLogger(getClass());
+
 
     @Retention(RetentionPolicy.RUNTIME)
     private @interface TesteAnnotation {
@@ -19,7 +26,7 @@ class ReflectionUtilsTest {
     }
 
     @TesteAnnotation
-    private static class ReflectTonClassTests {
+    private static class ReflectionTests {
 
         @TesteAnnotation
         private String nome;
@@ -43,7 +50,7 @@ class ReflectionUtilsTest {
     static class Tests2 {
     }
 
-    ReflectTonClassTests tests = new ReflectTonClassTests();
+    ReflectionTests tests = new ReflectionTests();
 
     @Test
     @DisplayName("Existe o campo esperado True")
@@ -99,7 +106,7 @@ class ReflectionUtilsTest {
     @DisplayName("Existe Anotação na classe esperado True")
     @Test
     void existsAnnotationInClassExpectTrue() {
-        Class<? extends ReflectTonClassTests> clazz = tests.getClass();
+        Class<? extends ReflectionTests> clazz = tests.getClass();
         Boolean result = ReflectionUtils.hasAnnotation(TesteAnnotation.class, clazz);
         Assertions.assertEquals(Boolean.TRUE, result);
     }
@@ -168,9 +175,17 @@ class ReflectionUtilsTest {
     }
 
     @DisplayName("Médodo existe esperado um optional com o método")
+    @Test
     void methodExistsExpectOptionalWithMethod() {
         Method method = ReflectionUtils.safeGetMethod(tests.getClass(), "sayHello").get();
         Assertions.assertNotNull(method);
+    }
+
+    @DisplayName("Classe existente esperado um optional com a classe")
+    @Test
+    void classExistsExpectOptionalWithMethod() {
+        Class<?> clazz = ReflectionUtils.safeGetClassByName("org.restructure.framework.utils.ReflectionUtils").get();
+        Assertions.assertNotNull(clazz);
     }
 
 }
