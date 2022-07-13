@@ -1,20 +1,31 @@
 package org.restructure.framework.utils;
 
+
+import org.apache.commons.lang3.reflect.TypeUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Objects;
 import java.util.Optional;
+
 
 /**
  * Classe Utilitária para trabalhar com reflexão
  *
  * @author João Henrique
+ * @version 1.0.0
  * @since 1.0.0
  */
 public class ReflectionUtils {
 
     private ReflectionUtils() {
     }
+
+    private static final Logger logger = LogManager.getLogger();
 
     /**
      * Verifica a existência de um campo
@@ -125,6 +136,12 @@ public class ReflectionUtils {
         }
     }
 
+    /**
+     * Obtêm uma classe pelo seu nome
+     *
+     * @param name nome da classe
+     * @return Um {@link Optional} com a classe
+     */
     public static Optional<Class<?>> safeGetClassByName(String name) {
         try {
             Class<?> clazz = Class.forName(name);
@@ -132,5 +149,71 @@ public class ReflectionUtils {
         } catch (ClassNotFoundException e) {
             return Optional.empty();
         }
+    }
+
+    /**
+     * Cria uma instância de uma classe
+     *
+     * @param target classe para criação
+     * @return um {@link Optional} contento o objeto criado
+     */
+    public static Optional<Object> createInstance(Class<?> target) {
+        try {
+            return Optional.of(target.getDeclaredConstructor().newInstance());
+        } catch (Exception e) {
+            logger.error("Não Foi possível criar uma instancia de {}", target.getSimpleName());
+            return Optional.empty();
+        }
+    }
+
+    /**
+     * Realiza a execução de um método devolvendo seu retorno
+     *
+     * @param method método a ser executado
+     * @param target objeto da execução
+     * @param params parâmetros do método
+     * @return um {@link Optional} evitando problemas de {@link NullPointerException} em caso do método não retornar nada
+     */
+    public static Optional<Object> invokeMethod(Method method, Object target, Object... params) {
+        try {
+            if (method.trySetAccessible()) {
+                Object result = method.invoke(target, params);
+                if (Objects.nonNull(result)) {
+                    return Optional.of(result);
+                }
+            }
+        } catch (InvocationTargetException | IllegalAccessException ignored) {
+            logger.error("Não Foi possível executar o método {}", method.getName());
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Obtêm o valor de um campo
+     *
+     * @param target objeto fonte da execução
+     * @param field  campo a ser obtido
+     * @return um {@link Optional} em caso de houver algum problema na obtenção do valor evitando {@link  NullPointerException}
+     */
+    public static Optional<Object> getFieldValue(Object target, Field field) {
+        try {
+            if (field.trySetAccessible()) {
+                return Optional.of(field.get(target));
+            }
+        } catch (Exception e) {
+            logger.error("Não foi possível acessar o campo {}", field.getName());
+        }
+        return Optional.empty();
+    }
+
+    /**
+     * Realiza a verificação se
+     *
+     * @param origin tipo de origem
+     * @param dest   tipo de destino
+     * @return <code>True</code> caso seja possível a conversão e <code>False</code> caso contrario
+     */
+    public static boolean canParse(Class<?> origin, Class<?> dest) {
+        return TypeUtils.isAssignable(origin, dest);
     }
 }

@@ -11,6 +11,9 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 
 
 @DisplayName("Utilitários de reflexão")
@@ -26,12 +29,16 @@ class ReflectionUtilsTest {
     }
 
     @TesteAnnotation
-    private static class ReflectionTests {
+    private class ReflectionTests {
 
         @TesteAnnotation
         private String nome;
 
         public String lastName;
+
+        public ReflectionTests() {
+            nome = "Teste";
+        }
 
         @TesteAnnotation
         public void sayHello() {
@@ -41,8 +48,8 @@ class ReflectionUtilsTest {
 
         }
 
-        private void sayBy() {
-
+        private String sayBy() {
+            return "by";
         }
 
     }
@@ -192,6 +199,45 @@ class ReflectionUtilsTest {
     @Test
     void classNotExistsExpectEmptyOptional() {
         Boolean result = ReflectionUtils.safeGetClassByName("org.restructure.framework.utils.ReflectionUtils").isEmpty();
+        Assertions.assertFalse(result);
+    }
+
+    @DisplayName("Criação de objeto com sucesso")
+    @Test
+    void createInstanceWithSuccess() {
+        Object result = ReflectionUtils.createInstance(Object.class).get();
+        Assertions.assertNotNull(result);
+    }
+
+    @DisplayName("Execução de metodo com sucesso")
+    @Test
+    void callMethod() throws NoSuchMethodException {
+        Method m = tests.getClass().getDeclaredMethod("sayBy");
+        Assertions.assertDoesNotThrow(() -> {
+            Optional<Object> result = ReflectionUtils.invokeMethod(m, tests);
+        });
+    }
+
+    @DisplayName("Obetenção do campo com sucesso")
+    @Test
+    void getFieldValueWithSuccess() throws NoSuchFieldException {
+        Field f = tests.getClass().getDeclaredField("nome");
+        Assertions.assertDoesNotThrow(() -> {
+            Optional<Object> result = ReflectionUtils.getFieldValue(tests, f);
+        });
+    }
+
+    @DisplayName("Verifica a possibilidade de conversão de um tipo para outro")
+    @Test
+    void virifyIfParseTypes(){
+       Boolean result = ReflectionUtils.canParse(Integer.class,Number.class);
+       Assertions.assertTrue(result);
+    }
+
+    @DisplayName("Tipos não compativeis para conversão")
+    @Test
+    void verifyNotCanParse(){
+        Boolean result = ReflectionUtils.canParse(Number.class,Integer.class);
         Assertions.assertFalse(result);
     }
 }
