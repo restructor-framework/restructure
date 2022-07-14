@@ -59,3 +59,5 @@ mvnw
 tsconfig.json
 types.d.ts
 index.html
+package*.json
+webpack.*
