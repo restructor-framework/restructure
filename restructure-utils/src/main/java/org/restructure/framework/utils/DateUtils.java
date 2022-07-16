@@ -40,17 +40,35 @@ public class DateUtils {
         return java.time.LocalDate.of(localDate.getYear(), localDate.getMonthOfYear(), localDate.getDayOfMonth());
     }
 
+    /**
+     * Transforma uma {@link java.time.LocalDateTime} em {@link LocalDateTime}
+     *
+     * @param localDateTime data para conversão
+     * @return um {@link LocalDateTime}
+     */
     public static LocalDateTime toJodaLocalDateTime(java.time.LocalDateTime localDateTime) {
         Long timeMills = getJavaLocalDateTimeMilli(localDateTime);
         return new LocalDateTime(timeMills);
     }
 
+    /**
+     * Obtêm o valor em milissegundos de uma {@link java.time.LocalDateTime}
+     *
+     * @param localDateTime data para obtenção
+     * @return um {@link Long} com a representação da data em milissegundos
+     */
     private static Long getJavaLocalDateTimeMilli(java.time.LocalDateTime localDateTime) {
         ZonedDateTime zoned = localDateTime.atZone(ZoneId.systemDefault());
         Instant instant = zoned.toInstant();
         return instant.toEpochMilli();
     }
 
+    /**
+     * Transforma uma {@link LocalDateTime} em uma {@link java.time.LocalDateTime}
+     *
+     * @param localDateTime data para conversão
+     * @return um {@link }
+     */
     public static java.time.LocalDateTime toJavaLocalDateTime(LocalDateTime localDateTime) {
         return java.time.LocalDateTime.ofInstant(localDateTime.toDate().toInstant(), ZoneId.systemDefault());
     }
