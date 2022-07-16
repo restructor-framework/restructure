@@ -4,7 +4,9 @@ package org.restructure.framework.utils;
 import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
 
+import java.time.Instant;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 /**
  * Classe Utilitária para trabalhar com datas
@@ -39,7 +41,14 @@ public class DateUtils {
     }
 
     public static LocalDateTime toJodaLocalDateTime(java.time.LocalDateTime localDateTime) {
-        return new LocalDateTime(localDateTime.getChronology());
+        Long timeMills = getJavaLocalDateTimeMilli(localDateTime);
+        return new LocalDateTime(timeMills);
+    }
+
+    private static Long getJavaLocalDateTimeMilli(java.time.LocalDateTime localDateTime) {
+        ZonedDateTime zoned = localDateTime.atZone(ZoneId.systemDefault());
+        Instant instant = zoned.toInstant();
+        return instant.toEpochMilli();
     }
 
     public static java.time.LocalDateTime toJavaLocalDateTime(LocalDateTime localDateTime) {
