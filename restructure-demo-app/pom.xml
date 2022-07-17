@@ -17,12 +17,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>org.restructure.framework</groupId>
-			<artifactId>restructure-utils</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.restructure.framework</groupId>
-			<artifactId>restructure-view</artifactId>
+			<artifactId>restructure-core</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
