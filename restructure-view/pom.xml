@@ -6,4 +6,11 @@
     <version>1.0.0-SNAPSHOT</version>
   </parent>
   <artifactId>restructure-view</artifactId>
+  <dependencies>
+    <dependency>
+        <groupId>org.restructure.framework.</groupId>
+        <artifactId>restructure-utils</artifactId>
+        <version>${project.version}</version>
+    </dependency>
+  </dependencies>
 </project>
