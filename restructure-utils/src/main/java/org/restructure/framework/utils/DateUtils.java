@@ -73,5 +73,64 @@ public class DateUtils {
         return java.time.LocalDateTime.ofInstant(localDateTime.toDate().toInstant(), ZoneId.systemDefault());
     }
 
+    /**
+     * Obtêm o dia data
+     *
+     * @param date data para obtenção
+     * @return o dia da data
+     */
+    public static Integer getDay(LocalDate date) {
+        return date.getDayOfMonth();
+    }
+
+    /**
+     * Obtêm o mês de uma data
+     *
+     * @param date data para obtenção
+     * @return o mês da data
+     */
+    public static Integer getMonth(LocalDate date) {
+        return date.getMonthOfYear();
+    }
+
+    /**
+     * Obtêm o ano de uma data
+     *
+     * @param date data para obtenção
+     * @return ano da data
+     */
+    public static Integer getYear(LocalDate date) {
+        return date.getYear();
+    }
+
+    /**
+     * Obtêm a hora da data
+     *
+     * @param date data para obtenção
+     * @return hora da data
+     */
+    public static Integer getHour(LocalDateTime date) {
+        return date.getHourOfDay();
+    }
+
+    /**
+     * Obtêm o minuto da hora da data
+     *
+     * @param date data para obtenção
+     * @return minuto da hora
+     */
+    public static Integer getMinute(LocalDateTime date) {
+        return date.getMinuteOfHour();
+    }
+
+    /**
+     * Obtêm o segundo do minuto da hora da data
+     *
+     * @param date data para obtenção
+     * @return o segundo do minuto
+     */
+    public static Integer getSeconds(LocalDateTime date) {
+        return date.getSecondOfMinute();
+    }
 
 }

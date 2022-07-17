@@ -60,4 +60,22 @@ class DateUtilsTest {
         Assertions.assertEquals(local.getMinuteOfHour(), result.getMinute());
         Assertions.assertEquals(local.getSecondOfMinute(), result.getSecond());
     }
+
+    @DisplayName("Dia da data correto")
+    @Test
+    void getDay() {
+        org.joda.time.LocalDate date = new org.joda.time.LocalDate(2022, 5, 1);
+        Integer result = DateUtils.getDay(date);
+        Assertions.assertEquals(1, result);
+    }
+
+    @DisplayName("Mês da data correto")
+    @Test
+    void getMonth() {
+        org.joda.time.LocalDate date = new org.joda.time.LocalDate(2020, 11, 5);
+        Integer result = DateUtils.getMonth(date);
+        Assertions.assertEquals(11, result);
+    }
+
+
 }
