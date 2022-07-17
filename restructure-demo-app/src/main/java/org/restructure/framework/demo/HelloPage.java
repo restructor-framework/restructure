@@ -3,7 +3,6 @@ package org.restructure.framework.demo;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import org.restructure.framework.components.Window;
 
-import com.vaadin.flow.component.Text;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.JavaScript;
