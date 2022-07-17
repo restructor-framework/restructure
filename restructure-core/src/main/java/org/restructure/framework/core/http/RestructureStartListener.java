@@ -16,23 +16,8 @@ public class RestructureStartListener implements ServletContextListener, Applica
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        initCache();
-        initPersistence();
-        initNotify();
+        init();
     }
 
-    @Override
-    public void initCache() {
-        log.info("Iniciando Cache");
-    }
 
-    @Override
-    public void initNotify() {
-        log.info("Iniciando Serviço de notificações");
-    }
-
-    @Override
-    public void initPersistence() {
-        log.info("Iniciando Persistência");
-    }
 }
